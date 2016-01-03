@@ -25,7 +25,7 @@ function evplg#common#module#ShouldSourceThisModule( module_id, condition, ... )
 	return evlib#module#ShouldSourceThisModuleWithCondition(
 				\		a:module_id,
 				\		'evplg#common#pvt#init#CanSource_modules_on_top_of_evplg_common() && ( ' . a:condition . ')',
-				\		a:000
+				\		( ( a:0 > 0 ) ? a:1 : !0 )
 				\	)
 endfunction
 

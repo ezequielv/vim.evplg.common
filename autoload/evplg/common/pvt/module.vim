@@ -1,22 +1,27 @@
 
-" FIXME: add own inclusion guard (maybe use evlib#module#ShouldSourceThisModuleWithCondition() itself)
+" boiler plate -- prolog {{{
 
-" FIXME: add all the "boilerplate" code here
+" "bare vi support" detection/forwarding
+if has("eval")
 
-" FIXME: MAYBE: try to initialise evlib (so the autoloaded functions are available)
-"  IDEA: do this as part of the inclusion guard, above?
+" inclusion control {{{
+" maybe: if exists( 'g:evplg_common_autoload_evplg_common_pvt_module_loaded' ) || ( exists( 'g:evplg_common_disable' ) && g:evplg_common_disable != 0 )
+if exists( 'g:evplg_common_autoload_evplg_common_pvt_module_loaded' )
+	finish
+endif
+let g:evplg_common_autoload_evplg_common_pvt_module_loaded = 1
+" }}}
 
-" no_debug_function_as_argument: function s:DebugMessage_local( msg )
-" no_debug_function_as_argument: 	echomsg '[DEBUG] evplg: ' . a:msg
-" no_debug_function_as_argument: endfunction
-" no_debug_function_as_argument: 
-" no_debug_function_as_argument: let s:evplg_common_pvt_module_debug_message_function = ( exists( '*evlib#debug#DebugMessage' ) ? function( 'evlib#debug#DebugMessage' ) : function( 's:DebugMessage_local' ) )
-" no_debug_function_as_argument: 
-" no_debug_function_as_argument: function s:DebugMessage( msg )
-" no_debug_function_as_argument: 	call s:evplg_common_pvt_module_debug_message_function( a:msg )
-" no_debug_function_as_argument: endfunction
+" force "compatibility" mode {{{
+if &cp | set nocp | endif
+" set standard compatibility options ("Vim" standard)
+let s:cpo_save=&cpo
+set cpo&vim
+" }}}
 
-" FIXME: update the condition parameter in call to evlib#module#ShouldSourceThisModuleWithCondition()
+" }}} boiler plate -- prolog
+
+" TODO: MAYBE: update the condition parameter in call to evlib#module#ShouldSourceThisModuleWithCondition()
 function evplg#common#pvt#module#ShouldSourceThisModule( module_id, ... ) abort
 	" previous (no_debug_function_as_argument):
 	" \		[ s:evplg_common_pvt_module_debug_message_function ] + a:000
@@ -26,6 +31,21 @@ function evplg#common#pvt#module#ShouldSourceThisModule( module_id, ... ) abort
 				\		a:000
 				\	)
 endfunction
+
+" boiler plate -- epilog {{{
+
+" restore old "compatibility" options {{{
+let &cpo=s:cpo_save
+unlet s:cpo_save
+" }}}
+
+" non-eval versions would skip over the "endif"
+finish
+endif " "eval"
+" compatible mode
+echoerr "the script 'autoload/evplg/common/pvt/module.vim' needs support for the following: eval"
+
+" }}} boiler plate -- epilog
 
 " vim600: set filetype=vim fileformat=unix:
 " vim: set noexpandtab:
