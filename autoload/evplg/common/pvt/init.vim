@@ -58,7 +58,7 @@ function s:EVPlg_common_LocalSetup( srcfile ) abort
 	if l:success
 		" check for requirements/dependencies {{{
 		try
-			if l:success && !( evlib#SupportsAPIVersion( 0, 1, 0 ) )
+			if l:success && !( evlib#SupportsAPIVersion( 0, 1, 1 ) )
 				call s:DebugMessage_local( l:debug_message_prefix . 'warning: evlib library does not suppor the requested API version' )
 				let l:success = 0 " false
 			endif
